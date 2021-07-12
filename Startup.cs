@@ -54,7 +54,8 @@ namespace rest_api_custom_jwt_auth
 
                     options.Events = new JwtBearerEvents()
                     {
-                        OnAuthenticationFailed = jwtConfiguration.OnAuthenticationFailedHandler
+                        OnAuthenticationFailed = jwtConfiguration.OnAuthenticationFailedHandler,
+                        OnTokenValidated = jwtConfiguration.OnTokenValidatedHandler
                     };
                 });
 
