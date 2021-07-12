@@ -7,6 +7,7 @@ namespace rest_api_custom_jwt_auth.Data
     public class AppDbContext : DbContext
     {
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
@@ -17,6 +18,7 @@ namespace rest_api_custom_jwt_auth.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserEfConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleEfConfiguration());
         }
     }
 }
