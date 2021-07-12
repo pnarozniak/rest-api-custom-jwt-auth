@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using rest_api_custom_jwt_auth.Extensions;
 
 namespace rest_api_custom_jwt_auth.Models.Configurations
 {
@@ -17,6 +18,22 @@ namespace rest_api_custom_jwt_auth.Models.Configurations
             if (ctx.Exception is not null && ctx.Exception.GetType() == typeof(SecurityTokenExpiredException))
             {
                 ctx.Response.Headers.Add("Token-expired", "true");
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public Task OnTokenValidatedHandler(TokenValidatedContext ctx)
+        {
+            try
+            {
+                ctx.HttpContext.Request
+                    .SetUserId(ctx.Principal);
+            }
+            catch
+            {
+                ctx.Response.StatusCode = 401;
+                ctx.Response.CompleteAsync();
             }
 
             return Task.CompletedTask;
