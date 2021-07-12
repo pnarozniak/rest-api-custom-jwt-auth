@@ -63,6 +63,7 @@ namespace rest_api_custom_jwt_auth
                 });
 
             services.AddScoped<ITokensService, TokensService>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
