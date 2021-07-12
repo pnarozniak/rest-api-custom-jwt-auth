@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using rest_api_custom_jwt_auth.Data;
+using rest_api_custom_jwt_auth.Models.Configurations;
 
 namespace rest_api_custom_jwt_auth
 {
@@ -25,6 +26,9 @@ namespace rest_api_custom_jwt_auth
             {
                 options.UseSqlServer(Configuration.GetConnectionString("MsSqlDb"));
             });
+
+            services.Configure<JwtConfiguration>(
+                Configuration.GetSection("JwtConfiguration"));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
