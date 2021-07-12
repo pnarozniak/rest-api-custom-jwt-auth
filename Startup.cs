@@ -23,7 +23,7 @@ namespace rest_api_custom_jwt_auth
         {
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(Configuration["MsSqlDb"]);
+                options.UseSqlServer(Configuration.GetConnectionString("MsSqlDb"));
             });
 
             services.AddControllers();
