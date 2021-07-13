@@ -7,11 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using rest_api_custom_jwt_auth.Data;
 using rest_api_custom_jwt_auth.Models.Configurations;
+using rest_api_custom_jwt_auth.Repositories.Implementations;
+using rest_api_custom_jwt_auth.Repositories.Interfaces;
+using rest_api_custom_jwt_auth.Services.Implementations;
+using rest_api_custom_jwt_auth.Services.Interfaces;
 
 namespace rest_api_custom_jwt_auth
 {
@@ -58,6 +61,9 @@ namespace rest_api_custom_jwt_auth
                         OnTokenValidated = jwtConfiguration.OnTokenValidatedHandler
                     };
                 });
+
+            services.AddScoped<ITokensService, TokensService>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
