@@ -50,5 +50,45 @@ namespace rest_api_custom_jwt_auth.Services.Implementations
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
             );
         }
+
+        public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidIssuer = _jwtConfiguration.ValidIssuer,
+                ValidAudience = _jwtConfiguration.ValidAudience,
+                ValidateLifetime = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(_jwtConfiguration.SecretKey))
+            };
+
+            return ValidateAndGetPrincipalFromJwt(token, tokenValidationParameters);
+        }
+
+        private ClaimsPrincipal ValidateAndGetPrincipalFromJwt
+            (string token, TokenValidationParameters tokenValidationParameters)
+        {
+            try
+            {
+                ClaimsPrincipal principal = new JwtSecurityTokenHandler()
+                    .ValidateToken(token, tokenValidationParameters, out var securityToken);
+
+                var jwtSecurityToken = securityToken as JwtSecurityToken;
+                if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
+                    StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return null;
+                }
+
+                return principal;
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
