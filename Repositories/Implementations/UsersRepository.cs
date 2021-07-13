@@ -41,9 +41,9 @@ namespace rest_api_custom_jwt_auth.Repositories.Implementations
             return await GetUserWithDetailsByAsync(u => u.Email == email);
         }
 
-        public async Task<User> GetUserByIdAsync(int idUser)
+        public async Task<User> GetUserByRefreshTokenAsync(string refreshToken)
         {
-            return await GetUserWithDetailsByAsync(u => u.IdUser == idUser);
+            return await GetUserWithDetailsByAsync(u => u.RefreshToken == refreshToken);
         }
 
         public async Task<bool> UpdateUserRefreshTokenAsync(

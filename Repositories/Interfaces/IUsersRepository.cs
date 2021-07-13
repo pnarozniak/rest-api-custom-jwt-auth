@@ -10,7 +10,7 @@ namespace rest_api_custom_jwt_auth.Repositories.Interfaces
         public Task<RegisterResult> RegisterNewUserAsync(string email, string password);
         public Task<User> GetUserByEmailAsync(string email);
 
-        public Task<User> GetUserByIdAsync(int idUser);
+        public Task<User> GetUserByRefreshTokenAsync(string refreshToken);
 
         public Task<bool> UpdateUserRefreshTokenAsync(
             User user, string refreshToken, DateTime refreshTokenExpirationDate);
